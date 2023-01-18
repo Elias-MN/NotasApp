@@ -68,6 +68,9 @@
     height: 100%;
     background: #3DD1E7;
     border-right: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 .menu-img {
@@ -81,6 +84,12 @@
 
 .menuColumn {
     display: flex;
+}
+
+#color-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* CSS Button New Column*/

@@ -1,6 +1,29 @@
 let addColumnButton = document.getElementById("addColumn");
 let container = document.getElementById("container");
+let inputColor = document.getElementById("background-color");
+
+inputColor.addEventListener("change", SetColor);
+
+let table = {};
+let columns = [];
+
+function SetColor() {
+    table.backgroundColor = inputColor.value;
+    updateLSTable();
+    container.style.background = inputColor.value;
+}
+
+function GetColor() {
+    let tableJSON = localStorage.getItem('table');
+    if (tableJSON == null) { return; }
+    table = JSON.parse(tableJSON);
+    inputColor.value = table.backgroundColor;
+    container.style.background = table.backgroundColor;
+}
+GetColor();
+
 addColumnButton.addEventListener("click", AddNewColumn);
+
 
 // Añadir nueva columna
 function AddNewColumn() {
@@ -14,7 +37,9 @@ function AddNewColumn() {
     //   un elemento es un destino válido para el elemento arrastrado.
     // ondrop se activa cuando un elemento es soltado en un destino válido.
     divColumn.innerHTML = `
-                                    <div class="deleteColumn" onclick="DeleteColumn(event)"><p>Eliminar Columna</p></div>
+                                    <div>
+                                        <p class="deleteColumn" onclick="DeleteColumn(event)">Eliminar Columna</p>
+                                    </div>
                                     <div class="menuColumn">
                                         <textarea class="title" placeholder="Insertar título" onkeydown="if(event.keyCode === 13) event.preventDefault();"></textarea>
                                     </div>
@@ -22,6 +47,17 @@ function AddNewColumn() {
                                     <button class="addCard" onclick="AddNewCard(this)">Añadir tarjeta</button>
                                     `;
     container.insertBefore(divColumn, addColumnButton);
+
+    //Añadir a LS
+    columns.push(divColumn);
+    table.columns = columns;
+    updateLSTable();
+}
+
+function updateLSTable() {
+    console.log(table);
+    let tableToJSON = JSON.stringify(table);
+    localStorage.setItem('table', tableToJSON);
 }
 
 
