@@ -7,11 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
-    <title>Trello Copy</title>
+    <title>Notas App</title>
 </head>
 
 <body>
     <div id="container">
+        <div id="menu">
+            <div ondrop="CardDelete()" ondragover="AllowDrop(event)">
+                <img class="menu-img" src="./basura.png" alt="eliminar">
+            </div>
+        </div>
         <button id="addColumn" class="button-53">Añadir nueva lista</button>
     </div>
 </body>

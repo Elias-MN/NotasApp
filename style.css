@@ -62,8 +62,26 @@
     background-color: #33a5b6;
 }
 
+#menu {
+    min-width: 75px;
+    max-width: 75px;
+    height: 100%;
+    background: #3DD1E7;
+    border-right: 1px solid black;
+}
 
+.menu-img {
+    width: 100%;
+}
 
+.deleteColumn {
+    display: flex;
+    justify-content: center;
+}
+
+.menuColumn {
+    display: flex;
+}
 
 /* CSS Button New Column*/
 .button-53 {

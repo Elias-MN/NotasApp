@@ -14,7 +14,8 @@ function AddNewColumn() {
     //   un elemento es un destino válido para el elemento arrastrado.
     // ondrop se activa cuando un elemento es soltado en un destino válido.
     divColumn.innerHTML = `
-                                    <div>
+                                    <div class="deleteColumn" onclick="DeleteColumn(event)"><p>Eliminar Columna</p></div>
+                                    <div class="menuColumn">
                                         <textarea class="title" placeholder="Insertar título" onkeydown="if(event.keyCode === 13) event.preventDefault();"></textarea>
                                     </div>
                                     <div ondrop="CardDrop(event)" ondragover="AllowDrop(event)" class="drop-container">+</div>
@@ -52,4 +53,10 @@ function AllowDrop(event) {
 }
 function CardDragStart(event) {
     currentElement = event.target;
+}
+function CardDelete() {
+    currentElement.remove();
+}
+function DeleteColumn(event) {
+    event.target.parentNode.parentNode.remove();
 }
