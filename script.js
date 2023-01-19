@@ -5,7 +5,8 @@ let inputColor = document.getElementById("background-color");
 inputColor.addEventListener("change", SetColor);
 
 let table = {};
-let idColumn = 0;
+let idColumn;
+let columns;
 
 class column {
     constructor(id) {
@@ -15,7 +16,27 @@ class column {
     cards = [];
 };
 
-let columns = [];
+checkLS();
+
+function checkLS() {
+    let tableJSON = localStorage.getItem('table');
+    if (tableJSON == null) {
+        idColumn = 0;
+        columns = [];
+    } else {
+        table = JSON.parse(tableJSON);
+        idColumn = table.idColumnCounter;
+        columns = table.columns;
+        UpdateApp();
+    }
+}
+
+function UpdateApp() {
+    columns.forEach(element => {
+        console.log(element);
+        // TODO: Crear estructura columna
+    });
+}
 
 function SetColor() {
     table.backgroundColor = inputColor.value;
