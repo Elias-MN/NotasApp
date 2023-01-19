@@ -5,6 +5,16 @@ let inputColor = document.getElementById("background-color");
 inputColor.addEventListener("change", SetColor);
 
 let table = {};
+let idColumn = 0;
+
+class column {
+    constructor(id) {
+        this.id = id;
+    }
+    title = "";
+    cards = [];
+};
+
 let columns = [];
 
 function SetColor() {
@@ -49,13 +59,15 @@ function AddNewColumn() {
     container.insertBefore(divColumn, addColumnButton);
 
     //Añadir a LS
-    columns.push(divColumn);
+    let columnObj = new column(idColumn);
+    idColumn++;
+    table.idColumnCounter = idColumn;
+    columns.push(columnObj);
     table.columns = columns;
     updateLSTable();
 }
 
 function updateLSTable() {
-    console.log(table);
     let tableToJSON = JSON.stringify(table);
     localStorage.setItem('table', tableToJSON);
 }
