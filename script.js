@@ -32,9 +32,11 @@ function checkLS() {
 }
 
 function UpdateApp() {
-    columns.forEach(element => {
-        console.log(element);
-        // TODO: Crear estructura columna
+    columns.forEach(column => {
+        //console.log(column);
+        let divColumn = CreateColumn();
+        container.insertBefore(divColumn, addColumnButton);
+
     });
 }
 
@@ -55,18 +57,9 @@ GetColor();
 
 addColumnButton.addEventListener("click", AddNewColumn);
 
-
-// Añadir nueva columna
-function AddNewColumn() {
+function CreateColumn() {
     let divColumn = document.createElement("div");
     divColumn.classList.add("column");
-
-    // ondragover se activa cuando un elemento está siendo arrastrado sobre otro elemento.
-    //   Es necesario utilizar este evento para permitir que un elemento sea un "destino" válido
-    //   para el elemento arrastrado. Por defecto, el navegador impide que se suelten elementos
-    //   en una mayoría de los elementos, por lo que es necesario especificar manualmente que
-    //   un elemento es un destino válido para el elemento arrastrado.
-    // ondrop se activa cuando un elemento es soltado en un destino válido.
     divColumn.innerHTML = `
                                     <div>
                                         <p class="deleteColumn" onclick="DeleteColumn(event)">Eliminar Columna</p>
@@ -77,6 +70,11 @@ function AddNewColumn() {
                                     <div ondrop="CardDrop(event)" ondragover="AllowDrop(event)" class="drop-container">+</div>
                                     <button class="addCard" onclick="AddNewCard(this)">Añadir tarjeta</button>
                                     `;
+    return divColumn;
+}
+
+function AddNewColumn() {
+    let divColumn = CreateColumn();
     container.insertBefore(divColumn, addColumnButton);
 
     //Añadir a LS
