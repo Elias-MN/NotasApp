@@ -32,9 +32,8 @@ function checkLS() {
 }
 
 function UpdateApp() {
-    columns.forEach(column => {
-        //console.log(column);
-        let divColumn = CreateColumn();
+    columns.forEach(dataColumn => {
+        let divColumn = CreateColumn(dataColumn);
         container.insertBefore(divColumn, addColumnButton);
 
     });
@@ -57,29 +56,35 @@ GetColor();
 
 addColumnButton.addEventListener("click", AddNewColumn);
 
-function CreateColumn() {
+function CreateColumn(dataColumn) {
     let divColumn = document.createElement("div");
+
+    if (dataColumn) {
+        divColumn.setAttribute("id", dataColumn.id);
+    } else {
+        divColumn.setAttribute("id", idColumn);
+    }
+
     divColumn.classList.add("column");
     divColumn.innerHTML = `
                                     <div>
                                         <p class="deleteColumn" onclick="DeleteColumn(event)">Eliminar Columna</p>
                                     </div>
                                     <div class="menuColumn">
-                                        <textarea class="title" placeholder="Insertar título" onkeydown="if(event.keyCode === 13) event.preventDefault();"></textarea>
+                                        <textarea onblur="AddText(event)" class="title" placeholder="Insertar título" onkeydown="if(event.keyCode === 13) event.preventDefault();"></textarea>
                                     </div>
                                     <div ondrop="CardDrop(event)" ondragover="AllowDrop(event)" class="drop-container">+</div>
                                     <button class="addCard" onclick="AddNewCard(this)">Añadir tarjeta</button>
                                     `;
+    idColumn++;
     return divColumn;
 }
 
 function AddNewColumn() {
-    let divColumn = CreateColumn();
-    container.insertBefore(divColumn, addColumnButton);
-
     //Añadir a LS
     let columnObj = new column(idColumn);
-    idColumn++;
+    let divColumn = CreateColumn();
+    container.insertBefore(divColumn, addColumnButton);
     table.idColumnCounter = idColumn;
     columns.push(columnObj);
     table.columns = columns;
@@ -90,7 +95,6 @@ function updateLSTable() {
     let tableToJSON = JSON.stringify(table);
     localStorage.setItem('table', tableToJSON);
 }
-
 
 // Añadir nueva tarjeta
 function AddNewCard(button) {
@@ -106,7 +110,6 @@ function AddNewCard(button) {
     let dropContainer = button.parentNode.getElementsByClassName("drop-container"); //  button.parentNode referencia a la columna
     button.parentNode.insertBefore(divCard, dropContainer[0]);
 }
-
 
 // Eventos tarjetas
 let currentElement;
@@ -125,5 +128,17 @@ function CardDelete() {
     currentElement.remove();
 }
 function DeleteColumn(event) {
+    let idDOM = event.target.parentNode.parentNode.id;
     event.target.parentNode.parentNode.remove();
+    let idArray = table.columns.findIndex(elemento => elemento.id === idDOM);
+    table.columns.splice(idArray, 1);
+    updateLSTable();
+}
+
+function AddText(event) {
+    let idDOM = event.target.parentNode.parentNode.id;
+    console.log(idDOM);
+    let idArray = table.columns.findIndex(columnID => columnID === idDOM);
+    table.columns[idArray].title = event.target.value;
+    updateLSTable();
 }
