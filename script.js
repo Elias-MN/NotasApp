@@ -58,20 +58,23 @@ addColumnButton.addEventListener("click", AddNewColumn);
 
 function CreateColumn(dataColumn) {
     let divColumn = document.createElement("div");
+    let title = "";
 
     if (dataColumn) {
         divColumn.setAttribute("id", dataColumn.id);
+        title = dataColumn.title;
     } else {
         divColumn.setAttribute("id", idColumn);
     }
 
     divColumn.classList.add("column");
+
     divColumn.innerHTML = `
                                     <div>
                                         <p class="deleteColumn" onclick="DeleteColumn(event)">Eliminar Columna</p>
                                     </div>
                                     <div class="menuColumn">
-                                        <textarea onblur="AddText(event)" class="title" placeholder="Insertar título" onkeydown="if(event.keyCode === 13) event.preventDefault();"></textarea>
+                                        <textarea onblur="AddText(event)" class="title" placeholder="Insertar título" onkeydown="if(event.keyCode === 13) event.preventDefault();">${title}</textarea>
                                     </div>
                                     <div ondrop="CardDrop(event)" ondragover="AllowDrop(event)" class="drop-container">+</div>
                                     <button class="addCard" onclick="AddNewCard(this)">Añadir tarjeta</button>
@@ -130,15 +133,21 @@ function CardDelete() {
 function DeleteColumn(event) {
     let idDOM = event.target.parentNode.parentNode.id;
     event.target.parentNode.parentNode.remove();
-    let idArray = table.columns.findIndex(elemento => elemento.id === idDOM);
-    table.columns.splice(idArray, 1);
+    table.columns.forEach((element, index) => {
+        if (element.id == idDOM) {
+            table.columns.splice(index, 1);
+        }
+    });
+
     updateLSTable();
 }
 
 function AddText(event) {
     let idDOM = event.target.parentNode.parentNode.id;
-    console.log(idDOM);
-    let idArray = table.columns.findIndex(columnID => columnID === idDOM);
-    table.columns[idArray].title = event.target.value;
+    table.columns.forEach((element, index) => {
+        if (element.id == idDOM) {
+            table.columns[index].title = event.target.value;
+        }
+    });
     updateLSTable();
 }
