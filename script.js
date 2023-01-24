@@ -6,6 +6,8 @@ inputColor.addEventListener("change", SetColor);
 
 let table = {};
 let idColumn;
+let idCard;
+
 let columns;
 
 class column {
@@ -16,16 +18,27 @@ class column {
     cards = [];
 };
 
+class card {
+    constructor(id) {
+        this.id = id;
+    }
+    text = "";
+}
+
 checkLS();
 
 function checkLS() {
     let tableJSON = localStorage.getItem('table');
     if (tableJSON == null) {
         idColumn = 0;
+        idCard = 0;
+        table.idColumnCounter = idColumn;
+        table.idCardCounter = idCard;
         columns = [];
     } else {
         table = JSON.parse(tableJSON);
         idColumn = table.idColumnCounter;
+        idCard = table.idCardCounter;
         columns = table.columns;
         UpdateApp();
     }
@@ -52,6 +65,7 @@ function GetColor() {
     inputColor.value = table.backgroundColor;
     container.style.background = table.backgroundColor;
 }
+
 GetColor();
 
 addColumnButton.addEventListener("click", AddNewColumn);
@@ -74,7 +88,7 @@ function CreateColumn(dataColumn) {
                                         <p class="deleteColumn" onclick="DeleteColumn(event)">Eliminar Columna</p>
                                     </div>
                                     <div class="menuColumn">
-                                        <textarea onblur="AddText(event)" class="title" placeholder="Insertar título" onkeydown="if(event.keyCode === 13) event.preventDefault();">${title}</textarea>
+                                        <textarea onblur="TextTitleChanged(event)" class="title" placeholder="Insertar título" onkeydown="if(event.keyCode === 13) event.preventDefault();">${title}</textarea>
                                     </div>
                                     <div ondrop="CardDrop(event)" ondragover="AllowDrop(event)" class="drop-container">+</div>
                                     <button class="addCard" onclick="AddNewCard(this)">Añadir tarjeta</button>
@@ -103,6 +117,18 @@ function updateLSTable() {
 function AddNewCard(button) {
     let divCard = document.createElement("div");
     divCard.setAttribute("draggable", "true");
+    let cardObj = new card(idCard);
+    divCard.setAttribute("id", idCard);
+    idCard++;
+    table.idCardCounter = idCard;
+
+    let idCurrentColumn = button.parentNode.id;
+    table.columns.forEach((element, index) => {
+        if (element.id == idCurrentColumn) {
+            table.columns[index].cards.push(cardObj);
+            updateLSTable();
+        }
+    });
 
     // ondragstart se activa cuando un usuario comienza a arrastrar un elemento.
     divCard.addEventListener('dragstart', CardDragStart);
@@ -112,6 +138,7 @@ function AddNewCard(button) {
     divCard.appendChild(textarea);
     let dropContainer = button.parentNode.getElementsByClassName("drop-container"); //  button.parentNode referencia a la columna
     button.parentNode.insertBefore(divCard, dropContainer[0]);
+
 }
 
 // Eventos tarjetas
@@ -142,7 +169,7 @@ function DeleteColumn(event) {
     updateLSTable();
 }
 
-function AddText(event) {
+function TextTitleChanged(event) {
     let idDOM = event.target.parentNode.parentNode.id;
     table.columns.forEach((element, index) => {
         if (element.id == idDOM) {
@@ -150,4 +177,8 @@ function AddText(event) {
         }
     });
     updateLSTable();
+}
+
+function TextCardChanged(event) {
+
 }
