@@ -2,6 +2,8 @@ let addColumnButton = document.getElementById("addColumn");
 let container = document.getElementById("container");
 let inputColor = document.getElementById("background-color");
 
+
+//TODO: https://designdrastic.com/tutorial/get-the-value-of-input-type-color-onchange
 inputColor.addEventListener("change", SetColor);
 
 let table = {};
