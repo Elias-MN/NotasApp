@@ -2,9 +2,7 @@ let addColumnButton = document.getElementById("addColumn");
 let container = document.getElementById("container");
 let inputColor = document.getElementById("background-color");
 
-
-//TODO: https://designdrastic.com/tutorial/get-the-value-of-input-type-color-onchange
-inputColor.addEventListener("change", SetColor);
+inputColor.addEventListener("input", SetColor);
 
 let table = {};
 let idColumn;
@@ -97,10 +95,8 @@ function CreateColumn(dataColumn) {
 
     if (dataColumn) {
         for (let card = 0; card < dataColumn.cards.length; card++) {
-            console.log(divColumn.children[0]);
-            AddNewCard(divColumn.children[0]);
+            AddNewCard(divColumn.children[0], dataColumn.cards[card]);
         }
-
     }
 
     idColumn++;
@@ -124,8 +120,7 @@ function updateLSTable() {
 }
 
 // Añadir nueva tarjeta
-function AddNewCard(button) {
-    console.log(button);
+function AddNewCard(button, dataCard) {
     let divCard = document.createElement("div");
     divCard.setAttribute("draggable", "true");
     let cardObj = new card(idCard);
@@ -134,17 +129,25 @@ function AddNewCard(button) {
     table.idCardCounter = idCard;
 
     let idCurrentColumn = button.parentNode.id;
-    table.columns.forEach((element, index) => {
-        if (element.id == idCurrentColumn) {
-            table.columns[index].cards.push(cardObj);
-            updateLSTable();
-        }
-    });
+
+    if (!dataCard) {
+        table.columns.forEach((element, index) => {
+            if (element.id == idCurrentColumn) {
+                table.columns[index].cards.push(cardObj);
+                updateLSTable();
+            }
+        });
+    }
 
     // ondragstart se activa cuando un usuario comienza a arrastrar un elemento.
     divCard.addEventListener('dragstart', CardDragStart);
-
     let textarea = document.createElement("textarea");
+    if (dataCard) {
+        textarea.value = dataCard.text;
+    }
+
+    textarea.addEventListener("blur", TextCardChanged(textarea));
+
     textarea.classList.add("card");
     divCard.appendChild(textarea);
     let dropContainer = button.parentNode.getElementsByClassName("drop-container"); //  button.parentNode referencia a la columna
@@ -190,6 +193,18 @@ function TextTitleChanged(event) {
     updateLSTable();
 }
 
-function TextCardChanged(event) {
+function TextCardChanged(textarea) {
+    let idColumnDOM = textarea.parentNode.parentNode.id;
+    let idCardDOM = textarea.parentNode.id;
 
+    table.columns.forEach((element, index) => {
+        if (element.id == idColumnDOM) {
+            table.columns[index].cards.forEach(card => {
+                if (card.id == idCardDOM) {
+                    table.columns[index].cards[idCardDOM].text = textarea.value;
+                }
+            });
+        }
+    });
+    updateLSTable();
 }
