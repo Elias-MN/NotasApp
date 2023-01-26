@@ -3,12 +3,13 @@ let container = document.getElementById("container");
 let inputColor = document.getElementById("background-color");
 
 inputColor.addEventListener("input", SetColor);
+addColumnButton.addEventListener("click", AddNewColumn);
 
 let table = {};
 let idColumn;
 let idCard;
-
 let columns;
+let currentElement;
 
 class column {
     constructor(id) {
@@ -17,7 +18,6 @@ class column {
     title = "";
     cards = [];
 };
-
 class card {
     constructor(id) {
         this.id = id;
@@ -25,9 +25,7 @@ class card {
     text = "";
 }
 
-checkLS();
-
-function checkLS() {
+function CheckLS() {
     let tableJSON = localStorage.getItem('table');
     if (tableJSON == null) {
         idColumn = 0;
@@ -61,13 +59,10 @@ function GetColor() {
     let tableJSON = localStorage.getItem('table');
     if (tableJSON == null) { return; }
     table = JSON.parse(tableJSON);
+    if (table.backgroundColor == null) { return; }
     inputColor.value = table.backgroundColor;
     container.style.background = table.backgroundColor;
 }
-
-GetColor();
-
-addColumnButton.addEventListener("click", AddNewColumn);
 
 function CreateColumn(dataColumn) {
     let divColumn = document.createElement("div");
@@ -104,7 +99,6 @@ function CreateColumn(dataColumn) {
 }
 
 function AddNewColumn() {
-    //Añadir a LS
     let columnObj = new column(idColumn);
     let divColumn = CreateColumn();
     container.insertBefore(divColumn, addColumnButton);
@@ -119,14 +113,18 @@ function updateLSTable() {
     localStorage.setItem('table', tableToJSON);
 }
 
-// Añadir nueva tarjeta
 function AddNewCard(button, dataCard) {
     let divCard = document.createElement("div");
     divCard.setAttribute("draggable", "true");
     let cardObj = new card(idCard);
-    divCard.setAttribute("id", idCard);
-    idCard++;
-    table.idCardCounter = idCard;
+
+    if (dataCard) {
+        divCard.setAttribute("id", dataCard.id);
+    } else {
+        divCard.setAttribute("id", idCard);
+        idCard++;
+        table.idCardCounter = idCard;
+    }
 
     let idCurrentColumn = button.parentNode.id;
 
@@ -145,8 +143,7 @@ function AddNewCard(button, dataCard) {
     if (dataCard) {
         textarea.value = dataCard.text;
     }
-
-    textarea.addEventListener("blur", TextCardChanged(textarea));
+    textarea.setAttribute("onblur", "TextCardChanged(event)");
 
     textarea.classList.add("card");
     divCard.appendChild(textarea);
@@ -155,22 +152,23 @@ function AddNewCard(button, dataCard) {
 
 }
 
-// Eventos tarjetas
-let currentElement;
-
 function CardDrop(event) {
     let dropContainer = event.target.parentNode.getElementsByClassName("drop-container");
     event.target.parentNode.insertBefore(currentElement, dropContainer[0]);
 }
+
 function AllowDrop(event) {
     event.preventDefault();
 }
+
 function CardDragStart(event) {
     currentElement = event.target;
 }
+
 function CardDelete() {
     currentElement.remove();
 }
+
 function DeleteColumn(event) {
     let idDOM = event.target.parentNode.parentNode.id;
     event.target.parentNode.parentNode.remove();
@@ -193,18 +191,23 @@ function TextTitleChanged(event) {
     updateLSTable();
 }
 
-function TextCardChanged(textarea) {
-    let idColumnDOM = textarea.parentNode.parentNode.id;
-    let idCardDOM = textarea.parentNode.id;
+function TextCardChanged(event) {
+    let idColumnDOM = event.target.parentNode.parentNode.id;
+    let idCardDOM = event.target.parentNode.id;
+    console.log(idColumnDOM);
+    console.log(idCardDOM);
 
     table.columns.forEach((element, index) => {
         if (element.id == idColumnDOM) {
             table.columns[index].cards.forEach(card => {
                 if (card.id == idCardDOM) {
-                    table.columns[index].cards[idCardDOM].text = textarea.value;
+                    card.text = event.target.value;
                 }
             });
         }
     });
     updateLSTable();
 }
+
+CheckLS();
+GetColor();
