@@ -48,7 +48,6 @@ function UpdateApp() {
     columns.forEach(dataColumn => {
         let divColumn = CreateColumn(dataColumn);
         container.insertBefore(divColumn, addColumnButton);
-
     });
 }
 
@@ -93,6 +92,15 @@ function CreateColumn(dataColumn) {
                                     <div ondrop="CardDrop(event)" ondragover="AllowDrop(event)" class="drop-container">+</div>
                                     <button class="addCard" onclick="AddNewCard(this)">Añadir tarjeta</button>
                                     `;
+
+    if (dataColumn) {
+        for (let card = 0; card < dataColumn.cards.length; card++) {
+            console.log(divColumn.children[0]);
+            AddNewCard(divColumn.children[0]);
+        }
+
+    }
+
     idColumn++;
     return divColumn;
 }
@@ -115,6 +123,7 @@ function updateLSTable() {
 
 // Añadir nueva tarjeta
 function AddNewCard(button) {
+    console.log(button);
     let divCard = document.createElement("div");
     divCard.setAttribute("draggable", "true");
     let cardObj = new card(idCard);
