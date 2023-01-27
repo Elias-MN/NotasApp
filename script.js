@@ -2,14 +2,18 @@ let addColumnButton = document.getElementById("addColumn");
 let container = document.getElementById("container");
 let inputColor = document.getElementById("background-color");
 
-inputColor.addEventListener("input", SetColor);
-addColumnButton.addEventListener("click", AddNewColumn);
-
 let table = {};
 let idColumn;
 let idCard;
 let columns;
 let currentElement;
+
+inputColor.addEventListener("input", SetColor);
+addColumnButton.addEventListener("click", AddNewColumn);
+
+//TODO:
+// https://stackdiary.com/change-css-variable-value-javascript/
+// Bug: Cambiar el color sin haber creado nunca columnas
 
 class column {
     constructor(id) {
@@ -137,7 +141,6 @@ function AddNewCard(button, dataCard) {
         });
     }
 
-    // ondragstart se activa cuando un usuario comienza a arrastrar un elemento.
     divCard.addEventListener('dragstart', CardDragStart);
     let textarea = document.createElement("textarea");
     if (dataCard) {
@@ -147,7 +150,7 @@ function AddNewCard(button, dataCard) {
 
     textarea.classList.add("card");
     divCard.appendChild(textarea);
-    let dropContainer = button.parentNode.getElementsByClassName("drop-container"); //  button.parentNode referencia a la columna
+    let dropContainer = button.parentNode.getElementsByClassName("drop-container");
     button.parentNode.insertBefore(divCard, dropContainer[0]);
 
 }
@@ -194,8 +197,6 @@ function TextTitleChanged(event) {
 function TextCardChanged(event) {
     let idColumnDOM = event.target.parentNode.parentNode.id;
     let idCardDOM = event.target.parentNode.id;
-    console.log(idColumnDOM);
-    console.log(idCardDOM);
 
     table.columns.forEach((element, index) => {
         if (element.id == idColumnDOM) {
