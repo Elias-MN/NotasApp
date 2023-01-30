@@ -113,6 +113,38 @@ function AddNewColumn() {
 }
 
 function updateLSTable() {
+    let color1 = container.children[0].getElementsByClassName("inputColor")[0].value;
+    table.backgroundColor = color1;
+
+    let updateColumns = [];
+    let updateCards = [];
+    for (let element = 1; element < container.children.length - 1; element++) {
+        let currentColumn = container.children[element];
+        let currentColumnID = currentColumn.getAttribute('id');
+        let currentColumnTitle = currentColumn.getElementsByClassName("title")[0].value;
+        let currentColumnCards = currentColumn.querySelectorAll("[draggable]");
+
+        //console.log(currentColumnCards[0].firstChild.value);
+        let columnObj = new column(currentColumnID);
+        columnObj.title = currentColumnTitle;
+
+        for (let element = 0; element <= currentColumnCards.length; element++) {
+            let currentCard = currentColumnCards[element];
+            let currentCardValue = currentCard.value;
+            let currentCardID = currentCard.getAttribute('id');
+            let cardObj = new card(currentCardID);
+            cardObj.text = currentCardValue;
+            updateCards.push(cardObj);
+        }
+        columnObj.cards = updateCards;
+
+        updateColumns.push(columnObj);
+
+    }
+
+    console.log(updateColumns);
+    //table.columns = updateColumns;
+
     let tableToJSON = JSON.stringify(table);
     localStorage.setItem('table', tableToJSON);
 }
@@ -170,6 +202,7 @@ function CardDragStart(event) {
 
 function CardDelete() {
     currentElement.remove();
+
 }
 
 function DeleteColumn(event) {
