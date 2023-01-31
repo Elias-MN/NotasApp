@@ -12,6 +12,7 @@ let color1;
 //TODO:
 // Añadir un segundo color para botones: https://stackdiary.com/change-css-variable-value-javascript/
 // Cambiar cursor a grab, grabbing, drop... cuando se arrastren tarjetas: https://www.w3schools.com/cssref/pr_class_cursor.php
+// Añadir sonidos al tirar en la basura las tarjetas...
 
 class column {
     constructor(id) {
