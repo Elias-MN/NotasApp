@@ -38,6 +38,7 @@
     border: none;
     text-align: center;
     resize: none;
+    font-weight: bold;
 }
 
 .drop-container {
@@ -80,6 +81,11 @@
 .deleteColumn {
     display: flex;
     justify-content: center;
+    background: #c50000;
+    color: white;
+    border: 1px solid black;
+    margin-bottom: 25px;
+    cursor: pointer;
 }
 
 .menuColumn {
