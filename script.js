@@ -1,6 +1,7 @@
 let addColumnButton = document.getElementById("addColumn");
 let container = document.getElementById("container");
-let inputColor = document.getElementById("background-color");
+let inputColor1 = document.getElementById("color1");
+let inputColor2 = document.getElementById("color2");
 
 let table = {};
 let idColumn;
@@ -8,11 +9,16 @@ let idCard;
 let columns;
 let currentElement;
 let color1;
+let color2;
+
+const root_theme = document.querySelector(':root');
+
 
 //TODO:
 // Añadir un segundo color para botones: https://stackdiary.com/change-css-variable-value-javascript/
 // Cambiar cursor a grab, grabbing, drop... cuando se arrastren tarjetas: https://www.w3schools.com/cssref/pr_class_cursor.php
 // Añadir sonidos al tirar en la basura las tarjetas...
+// Evento scroll
 
 class column {
     constructor(id) {
@@ -38,15 +44,18 @@ function checkLS() {
         idColumn = 0;
         idCard = 0;
         color1 = "#7575ed";
+        color2 = "#1b9d40";
         table.idColumnCounter = idColumn;
         table.idCardCounter = idCard;
-        table.backgroundColor = color1;
+        table.color1 = color1;
+        table.color2 = color2;
         columns = [];
     } else {
         table = JSON.parse(tableJSON);
         idColumn = table.idColumnCounter;
         idCard = table.idCardCounter;
-        color1 = table.backgroundColor;
+        color1 = table.color1;
+        color2 = table.color2;
         if (table.columns) {
             columns = table.columns;
         } else {
@@ -54,8 +63,10 @@ function checkLS() {
         }
         printColumns();
     }
-    container.style.background = color1;
-    inputColor.value = color1;
+    inputColor1.value = color1;
+    inputColor2.value = color2;
+    setColor1();
+    setColor2();
 }
 
 // Función que actualiza las columnas en pantalla
@@ -66,9 +77,14 @@ function printColumns() {
     });
 }
 
-// Función que actualiza los colores en pantalla
-function setColor() {
-    container.style.background = inputColor.value;
+// Función que actualiza los colores 1 en pantalla
+function setColor1() {
+    container.style.background = inputColor1.value;
+}
+
+// Función que actualiza los colores 2 en pantalla
+function setColor2() {
+    root_theme.style.setProperty('--color-change', inputColor2.value);
 }
 
 // Función que crea la estructura de una columna
@@ -189,7 +205,8 @@ function deleteColumn(event) {
 
 // Función que actualiza todos los datos de la tabla en memoria (LocalStorage, Base de Datos...)
 function updateLSTable() {
-    table.backgroundColor = inputColor.value;
+    table.color1 = inputColor1.value;
+    table.color2 = inputColor2.value;
 
     let updateColumns = [];
     for (let element = 1; element < container.children.length - 1; element++) {
@@ -221,10 +238,16 @@ function updateLSTable() {
 
 // Función principal
 function main() {
-    inputColor.addEventListener("change", updateLSTable);
-    inputColor.addEventListener("input", setColor);
+    inputColor1.addEventListener("change", updateLSTable);
+    inputColor1.addEventListener("input", setColor1);
+
+    inputColor2.addEventListener("change", updateLSTable);
+    inputColor2.addEventListener("input", setColor2);
+
     addColumnButton.addEventListener("click", addNewColumn);
     checkLS();
 }
 
 main();
+
+
