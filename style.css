@@ -23,6 +23,7 @@
     height: 95%;
     background-color: white;
     padding: 10px;
+    box-shadow: 2px -1px #4e4e4e;
 }
 
 #addColumn {

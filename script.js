@@ -13,12 +13,11 @@ let color2;
 
 const root_theme = document.querySelector(':root');
 
-
 //TODO:
-// Añadir un segundo color para botones: https://stackdiary.com/change-css-variable-value-javascript/
-// Cambiar cursor a grab, grabbing, drop... cuando se arrastren tarjetas: https://www.w3schools.com/cssref/pr_class_cursor.php
-// Añadir sonidos al tirar en la basura las tarjetas...
-// Evento scroll
+// Añadir sonidos al tirar en la papelera las tarjetas
+// Cambiar botón de eliminar columna
+// Añadir estilo de cursor y hover a tarjetas, zona arrastrar tarjetas, papelera e inputs
+// Evento scroll en las columnas
 
 class column {
     constructor(id) {
