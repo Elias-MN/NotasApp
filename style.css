@@ -23,7 +23,29 @@
     height: 95%;
     background-color: white;
     padding: 10px;
-    box-shadow: 2px -1px #4e4e4e;
+    box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+    overflow-y: auto;
+}
+
+.column::-webkit-scrollbar {
+    width: 10px;
+    display: none;
+}
+
+.column::-webkit-scrollbar-track {
+    background: white;
+}
+
+.column::-webkit-scrollbar-thumb {
+    background: white;
+}
+
+.column::-webkit-scrollbar-thumb:hover {
+    background: white;
+}
+
+.columnScroll {
+    overflow-y: scroll;
 }
 
 #addColumn {
@@ -34,6 +56,12 @@
     resize: none;
     width: 248px;
     height: 75px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    cursor: pointer;
+}
+
+.card:focus {
+    cursor: text;
 }
 
 .title {
@@ -54,6 +82,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: default;
 }
 
 .addCard {
@@ -82,16 +111,56 @@
 
 .menu-img {
     width: 100%;
+    filter: drop-shadow(2px -2px 1px black);
+    cursor: pointer;
+}
+
+.colorText {
+    cursor: default;
+}
+
+.inputColor {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 50px;
+    height: 50px;
+    border: none;
+    cursor: pointer;
+    box-shadow: rgb(6 24 44 / 40%) 0px 0px 0px 2px, rgb(6 24 44 / 65%) 0px 4px 6px -1px, rgb(255 255 255 / 8%) 0px 1px 0px inset;
+}
+
+.inputColor::-webkit-color-swatch {
+    border-radius: 50%;
+    border: 2px solid #000000;
+}
+
+.inputColor::-moz-color-swatch {
+    border-radius: 50%;
+    border: 2px solid #000000;
+}
+
+.deleteDiv {
+    display: flex;
+    justify-content: flex-end;
 }
 
 .deleteColumn {
     display: flex;
     justify-content: center;
-    background: #c50000;
+    background: var(--color-change);
     color: white;
     border: 1px solid black;
-    margin-bottom: 25px;
+    margin-bottom: 5px;
     cursor: pointer;
+    box-shadow: 1px 1px #868686;
+    border-radius: 50%;
+    width: 8%;
+}
+
+.deleteColumn:hover {
+    color: rgb(75, 75, 75);
+    background: rgb(207, 207, 207);
 }
 
 .menuColumn {

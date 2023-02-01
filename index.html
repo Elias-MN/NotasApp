@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="./favicon.ico">
+    <link rel="stylesheet" type="text/css" href="node_modules/all-animation/dist/all-animation.min.css" />
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
     <title>Notas App</title>
@@ -14,18 +15,20 @@
 <body>
     <div id="container">
         <div id="menu">
-            <div ondrop="deleteCard()" ondragover="allowDrop(event)">
+            <div ondrop="deleteCard(this)" ondragover="allowDrop(event)">
                 <img class="menu-img" src="./basura.png" alt="eliminar">
             </div>
             <div id="color-div">
-                <h3>Color 1</h3>
+                <h3 class="colorText">Color 1</h3>
                 <input type="color" id="color1" class="inputColor" value="#7575ed">
-                <h3>Color 2</h3>
+                <h3 class="colorText">Color 2</h3>
                 <input type="color" id="color2" class="inputColor" value="#3DD1E7">
             </div>
         </div>
         <button id="addColumn" class="button-53">Añadir nueva lista</button>
     </div>
+
+    <audio id="paperSound" src="./papelera.wav"></audio>
 </body>
 
 </html>

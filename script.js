@@ -1,7 +1,9 @@
-let addColumnButton = document.getElementById("addColumn");
-let container = document.getElementById("container");
-let inputColor1 = document.getElementById("color1");
-let inputColor2 = document.getElementById("color2");
+const addColumnButton = document.getElementById("addColumn");
+const container = document.getElementById("container");
+const inputColor1 = document.getElementById("color1");
+const inputColor2 = document.getElementById("color2");
+const paperSound = document.getElementById("paperSound");
+const root_theme = document.querySelector(':root');
 
 let table = {};
 let idColumn;
@@ -11,13 +13,8 @@ let currentElement;
 let color1;
 let color2;
 
-const root_theme = document.querySelector(':root');
 
 //TODO:
-// Personalizar favicon: https://www.favicon.cc/
-// Añadir sonidos al tirar en la papelera las tarjetas
-// Cambiar botón de eliminar columna
-// Añadir estilo de cursor y hover a tarjetas, zona arrastrar tarjetas, papelera e inputs
 // Evento scroll en las columnas
 
 class column {
@@ -105,8 +102,8 @@ function createColumn(dataColumn) {
     divColumn.classList.add("column");
 
     divColumn.innerHTML = `
-                                    <div>
-                                        <p class="deleteColumn" onclick="deleteColumn(event)">Eliminar Columna</p>
+                                    <div class="deleteDiv">
+                                        <p class="deleteColumn" onclick="deleteColumn(event)">X</p>
                                     </div>
                                     <div class="menuColumn">
                                         <textarea onblur="updateLSTable()" class="title" placeholder="Insertar título" onkeydown="if(event.keyCode === 13) event.preventDefault();">${title}</textarea>
@@ -192,7 +189,16 @@ function dragStartCard(event) {
 }
 
 // Función que elimina una tarjeta
-function deleteCard() {
+function deleteCard(event) {
+    paperSound.play();
+    setTimeout(() => {
+        paperSound.pause();
+        paperSound.currentTime = 0;
+    }, 500);
+    event.classList.add('a-wobble-right');
+    setTimeout(() => {
+        event.classList.remove('a-wobble-right');
+    }, 1000);
     currentElement.remove();
     updateLSTable();
 }
