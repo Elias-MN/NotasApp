@@ -14,6 +14,7 @@ let color2;
 const root_theme = document.querySelector(':root');
 
 //TODO:
+// Personalizar favicon: https://www.favicon.cc/
 // Añadir sonidos al tirar en la papelera las tarjetas
 // Cambiar botón de eliminar columna
 // Añadir estilo de cursor y hover a tarjetas, zona arrastrar tarjetas, papelera e inputs
