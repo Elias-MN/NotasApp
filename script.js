@@ -13,10 +13,6 @@ let currentElement;
 let color1;
 let color2;
 
-
-//TODO:
-// Evento scroll en las columnas
-
 class column {
     constructor(id) {
         this.id = id;
