@@ -195,9 +195,9 @@ function deleteCard(event) {
         paperSound.pause();
         paperSound.currentTime = 0;
     }, 500);
-    event.classList.add('a-wobble-right');
+    event.classList.add('a-jello-horizontal');
     setTimeout(() => {
-        event.classList.remove('a-wobble-right');
+        event.classList.remove('a-jello-horizontal');
     }, 1000);
     currentElement.remove();
     updateLSTable();
