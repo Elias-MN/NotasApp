@@ -135,6 +135,7 @@ function addNewColumn() {
 function addNewCard(columnReference, dataCard) {
     let divCard = document.createElement("div");
     divCard.setAttribute("draggable", "true");
+    divCard.setAttribute("class", "divCard");
 
     // Si la tarjeta estaba en memoria le asigno sus valores, sino los pongo nuevos
     if (dataCard) {

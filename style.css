@@ -52,6 +52,10 @@
     margin: 0 10px 0 10px;
 }
 
+.divCard{
+    margin: 5px 0;
+}
+
 .card {
     resize: none;
     width: 248px;
